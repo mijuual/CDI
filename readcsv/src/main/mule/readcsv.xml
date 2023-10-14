@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="0a0aa004-1dff-4e79-b975-c348df27ac4c" >
+		<file:connection workingDir="C:\Users\DELL\Desktop\read" />
+	</file:config>
+	<file:config name="File_Config1" doc:name="File Config" doc:id="4258a476-cdcd-4393-8698-c82abdedb571" >
+		<file:connection workingDir="C:\Users\DELL\Desktop\read\CVM" />
+	</file:config>
+	<flow name="readcsvFlow" doc:id="63f9709a-76e3-474c-9575-5dd95032644c" >
+		<file:listener doc:name="On New or Updated File" doc:id="9955af68-7c50-4ff3-a723-e11ebd6e9427" config-ref="File_Config1">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5000" />
+			</scheduling-strategy>
+		</file:listener>
+		<ee:transform doc:name="Transform Message" doc:id="3954a214-b0f4-4712-ba70-29606c89f36c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<foreach doc:name="For Each" doc:id="868d2f7e-1fa8-4561-9a92-545ec3625b3c" >
+			<logger level="INFO" doc:name="Logger" doc:id="a13c06a5-1523-4e92-a4d5-28ab3f782e95" message="#[payload]" />
+		</foreach>
+	</flow>
+</mule>

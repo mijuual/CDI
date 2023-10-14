@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="259a416b-4918-4607-a394-883ab93fb27c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="attribute2Flow" doc:id="eceaa2e9-42d9-4d35-9609-dd0e402ab083" >
+		<http:listener doc:name="Listener" doc:id="863d9a60-e4a7-438d-922b-750f2a94dc6c" config-ref="HTTP_Listener_config" path="/e/{addurl}"/>
+		<set-payload value='#[" hello " ++ attributes.uriParams.addurl as String ++ " from" ++ attributes.queryParams&#10;.addquery as String]' doc:name="Set Payload" doc:id="6980397f-2754-40a6-83ce-9fd443010ff7" />
+	</flow>
+</mule>

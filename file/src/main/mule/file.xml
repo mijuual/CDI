@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="5f044f0e-9c7f-467c-9e11-95357d0c4943" >
+		<file:connection workingDir="C:\Users\DELL\Desktop\read" />
+	</file:config>
+	<flow name="fileFlow" doc:id="74f08325-f8bb-464b-bd53-7757dd5696c4" >
+		<file:listener doc:name="On New or Updated File" doc:id="4870cdc5-ac53-49ae-b776-10bcc8b1bbe5" config-ref="File_Config" directory="readnow" moveToDirectory="output" renameTo='#[attributes.fileName ++ "_backup"]'>
+			<scheduling-strategy >
+				<fixed-frequency frequency="5000"/>
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="8400a46d-3d20-434a-be03-0db37b27add4" message="#[payload]"/>
+	</flow>
+</mule>
